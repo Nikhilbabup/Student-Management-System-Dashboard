@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Listing</title>
+  </head>
+  <body>
+    <h1>Student Listing</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Subject</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% students.forEach(function(student) { %>
+        <tr>
+          <td><%= student.name %></td>
+          <td><%= student.age %></td>
+          <td><%= student.subject %></td>
+          <td><a href="https://www.example.com"><%= student.email %></a></td>
+
+          <td>
+            <a href="/send-email?email=<%= student.email %>"
+              >Send email to <%= student.email %></a
+            >
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+      integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <div class="container">
+      <form action="/form-submit" method="POST">
+        <h2 style="margin-top: 100px">Slack notifications</h2>
+
+        <div class="row">
+          <div class="six columns">
+            <label>Message</label>
+            <input
+              class="u-full-width"
+              type="email"
+              name="email"
+              placeholder="Write som message"
+              required
+            />
+            <select name="channel">
+              <option value="Mathematics">Mathematics</option>
+              <option value="Physics">Physics</option>
+            </select>
+
+            <button class="button-primary" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <li><a href="/login">Login</a></li>
+    <li><a href="/logout">Logout</a></li>
+  </body>
+</html>
