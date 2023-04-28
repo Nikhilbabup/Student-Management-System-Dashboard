@@ -17,39 +17,49 @@ const studentSchema = new mongoose.Schema({
   subject: { type: String, required: true },
   email: { type: String, required: true },
 });
-const Student = mongoose.model("Student", studentSchema);
+const Student = mongoose.model("Details", studentSchema);
 
-Student.create([
-  {
-    name: "Alice",
-    age: 18,
-    subject: "Mathematics",
-    email: "alice@gmail.com",
-  },
-  {
-    name: "Bob",
-    age: 19,
-    subject: "Physics",
-    email: "bob@gmail.com",
-  },
-  {
-    name: "Charlie",
-    age: 20,
-    subject: "Chemistry",
-    email: "charlie@gmail.com",
-  },
-  {
-    name: "Dave",
-    age: 21,
-    subject: "Computer Science",
-    email: "dave@gmail.com",
-  },
-])
-  .then(() => {
-    console.log("Sample student details added to database");
+Student.findOne({})
+  .then((doc) => {
+    if (doc) {
+      console.log('Data already exists in the collection, not adding new data');
+    } else {
+      Student.create([
+        {
+          name: "Alice",
+          age: 18,
+          subject: "Mathematics",
+          email: "alice@gmail.com",
+        },
+        {
+          name: "Bob",
+          age: 19,
+          subject: "Physics",
+          email: "bob@gmail.com",
+        },
+        {
+          name: "Charlie",
+          age: 20,
+          subject: "Chemistry",
+          email: "charlie@gmail.com",
+        },
+        {
+          name: "Dave",
+          age: 21,
+          subject: "Computer Science",
+          email: "dave@gmail.com",
+        },
+      ])
+        .then(() => {
+          console.log('New data added to the collection');
+        })
+        .catch((err) => {
+          console.error('Error adding new data:', err);
+        });
+    }
   })
   .catch((err) => {
-    console.error("Failed to seed the database with students:", err);
+    console.error('Error:', err);
   });
 
 app.set("view engine", "ejs");
@@ -166,7 +176,7 @@ app.get("/send-email", (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
-      res.send("Error");
+      res.send("Email cannot send");
     } else {
       console.log("Email sent: " + info.response);
       res.send("Email sent");
