@@ -8,7 +8,7 @@
 // Import required modules
 const express = require("express"),
   mongoose = require("mongoose"),
-  passport = require("passport"),
+  // passport = require("passport"),
   bodyParser = require("body-parser"),
   LocalStrategy = require("passport-local"),
   nodemailer = require("nodemailer"),
@@ -27,7 +27,7 @@ const studentSchema = new mongoose.Schema({
   subject: { type: String, required: true },
   email: { type: String, required: true },
 });
-const Student = mongoose.model("Details", studentSchema);
+const Student = mongoose.model("Applied", studentSchema);
 
 // Data insertion to Mongodb
 Student.findOne({})
@@ -83,28 +83,37 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 // Showing home page
 app.get("/", function (req, res) {
   res.render("login");
 });
 
-// Showing admin page
-// app.get("/admin", isLoggedIn, async function (req, res) {
-//   // try {
-//   //   const students = await Student.find();
-//   //   res.render("admin", { students: students });
-//   // } catch (error) {
-//   //   console.error(error);
-//   //   res.status(500).send('Server error');
-//   // }
-// });
+/**
+ * 
+ *  This piece of code added for testing purpose
+ * 
+ * 
+      //Showing admin page
+      app.get("/admin", isLoggedIn, async function (req, res) {
+        try {
+          const students = await Student.find();
+          res.render("admin", { students: students });
+        } catch (error) {
+          console.error(error);
+          res.status(500).send('Server error');
+        }
+      });
+ * 
+ */
+
+// This code will get the details from mongodb 
 
 app.get("/students", async (req, res) => {
   try {
@@ -118,6 +127,10 @@ app.get("/students", async (req, res) => {
 
 
 // User credential details to login to the Dashboard
+const user = User.create({
+    username: "PeterParker",
+    password: "edith",
+  });
 
 //Showing login form
 // app.get("/login", function (req, res) {
@@ -161,7 +174,7 @@ app.get("/logout", function (req, res) {
   });
 });
 
-app.get("/send-email", (req, res) => {
+app.get("/send-email", async (req, res) => {
   const email = req.query.email; // Get the email address from the query string
   console.log(email);
   // Create a nodemailer transporter object
@@ -170,7 +183,8 @@ app.get("/send-email", (req, res) => {
     auth: {
       user: "peterparker@gmail.com",
       pass: "edith",
-    },
+    }
+
   });
 
   // Define the email options
@@ -193,11 +207,47 @@ app.get("/send-email", (req, res) => {
       // res.render('admin',{text:"Email sent"})
     }
   });
+
+
+
+/**
+ *  This is  a testing code to check the working of nodemailer 
+ * 
+ *  I got this piece of code from https://nodemailer.com/about/
+ * 
+
+        let testAccount = await nodemailer.createTestAccount();
+
+          // create reusable transporter object using the default SMTP transport
+          let transporter = nodemailer.createTransport({
+            host: "smtp.ethereal.email",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+              user: testAccount.user, // generated ethereal user
+              pass: testAccount.pass, // generated ethereal password
+            },
+          });
+
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: '"perterparker@gmail', 
+            to: "michellejones@gmail", 
+            subject: "Test mail",
+            text: "Hope you are doing good"
+          });
+
+          console.log("Message sent: %s", info.messageId);
+          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+          res.send(nodemailer.getTestMessageUrl(info))
+**/
+
 });
 
 //
 app.post("/form-submit", (req, res) => {
   if (req.body.channel == "Mathematics") {
+    // Here we can paste the webhook url we get from the slack site
     axios.post( "INSERT_WEBHOOK_URL_TO_MATHEMATICS_CHANNEL",{ text: `name${req.body.name} ,Email:${req.body.email}` })
       .then(() => {
         res.send("Message send!");
@@ -206,7 +256,8 @@ app.post("/form-submit", (req, res) => {
         res.send("Something went wrong! Can't send message !");
       });
   }
-  if (req.body.channel == "physics") {
+  if (req.body.channel == "Physics") {
+    // Here we can paste the webhook url we get from the slack site
     axios.post("INSERT_WEBHOOK_URL_TO_PHYSICS_CHANNEL",{ text: `name${req.body.name} ,Email:${req.body.email}` })
       .then(() => {
         res.send("Form submitted!");
