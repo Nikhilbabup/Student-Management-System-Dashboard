@@ -1,16 +1,26 @@
+/**
+ * Copyright @ NIKHILBABUP
+ * Email: nikhilbabupurakkal97@gmail.com
+ * Author: Nikhil Babu P
+ * 
+*/
+
+// Import required modules
 const express = require("express"),
   mongoose = require("mongoose"),
   passport = require("passport"),
   bodyParser = require("body-parser"),
   LocalStrategy = require("passport-local"),
-  passportLocalMongoose = require("passport-local-mongoose"),
   nodemailer = require("nodemailer"),
   axios = require("axios"),
   User = require("./model/User");
+
 var app = express();
 
+// Connecting to Mongodb
 mongoose.connect("mongodb://localhost/27017");
 
+//
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   age: { type: Number, required: true },
@@ -19,6 +29,7 @@ const studentSchema = new mongoose.Schema({
 });
 const Student = mongoose.model("Details", studentSchema);
 
+// Data insertion to Mongodb
 Student.findOne({})
   .then((doc) => {
     if (doc) {
@@ -84,7 +95,7 @@ app.get("/", function (req, res) {
   res.render("login");
 });
 
-// Showing secret page
+// Showing admin page
 // app.get("/admin", isLoggedIn, async function (req, res) {
 //   // try {
 //   //   const students = await Student.find();
@@ -105,10 +116,8 @@ app.get("/students", async (req, res) => {
   }
 });
 
-const user = User.create({
-  username: "PeterParker",
-  password: "edith",
-});
+
+// User credential details to login to the Dashboard
 
 //Showing login form
 // app.get("/login", function (req, res) {
@@ -176,34 +185,29 @@ app.get("/send-email", (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
-      res.send("Email cannot send");
+      res.send("Something went wrong! Can't send email ! ");
+      // res.render('admin',{text:"Something went wrong! Can't send email ! "})
     } else {
       console.log("Email sent: " + info.response);
       res.send("Email sent");
+      // res.render('admin',{text:"Email sent"})
     }
   });
 });
 
+//
 app.post("/form-submit", (req, res) => {
   if (req.body.channel == "Mathematics") {
-    axios
-      .post(
-        "https://hooks.slack.com/services/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",
-        { text: `name${req.body.name} ,Email:${req.body.email}` }
-      )
+    axios.post( "INSERT_WEBHOOK_URL_TO_MATHEMATICS_CHANNEL",{ text: `name${req.body.name} ,Email:${req.body.email}` })
       .then(() => {
-        res.send("Form submitted!");
+        res.send("Message send!");
       })
       .catch(() => {
-        res.send("Form submission failed!");
+        res.send("Something went wrong! Can't send message !");
       });
   }
-  if (req.body.channel == "Mathematics") {
-    axios
-      .post(
-        "https://hooks.slack.com/services/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",
-        { text: `name${req.body.name} ,Email:${req.body.email}` }
-      )
+  if (req.body.channel == "physics") {
+    axios.post("INSERT_WEBHOOK_URL_TO_PHYSICS_CHANNEL",{ text: `name${req.body.name} ,Email:${req.body.email}` })
       .then(() => {
         res.send("Form submitted!");
       })
@@ -213,10 +217,6 @@ app.post("/form-submit", (req, res) => {
   }
 });
 
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next();
-  res.redirect("/login");
-}
 
 var port = process.env.PORT || 5000;
 app.listen(port, function () {

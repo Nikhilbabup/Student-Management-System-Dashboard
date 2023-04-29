@@ -24,8 +24,7 @@
 
           <td>
             <a href="/send-email?email=<%= student.email %>"
-              >Send email to <%= student.email %></a
-            >
+              ><button> Send mail to <%= student.name %></button></a> 
           </td>
         </tr>
         <% }); %>
@@ -42,12 +41,12 @@
 
     <div class="container">
       <form action="/form-submit" method="POST">
-        <h2 style="margin-top: 100px">Slack notifications</h2>
+        <h2 style="margin-top: 100px">Send message </h2>
 
         <div class="row">
           <div class="six columns">
             <label>Message</label>
-            <input class="u-full-width" type="email" name="email" placeholder="Write som message" required />
+            <input class="u-full-width" type="email" name="email" placeholder="Write message to the students" required />
             <select name="channel">
               <option value="Mathematics">Mathematics</option>
               <option value="Physics">Physics</option>
