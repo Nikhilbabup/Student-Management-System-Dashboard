@@ -8,7 +8,7 @@
 // Import required modules
 const express = require("express"),
   mongoose = require("mongoose"),
-  // passport = require("passport"),
+  passport = require("passport"),
   bodyParser = require("body-parser"),
   LocalStrategy = require("passport-local"),
   nodemailer = require("nodemailer"),
@@ -83,12 +83,11 @@ app.use(
   })
 );
 
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Showing home page
 app.get("/", function (req, res) {
