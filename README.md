@@ -22,11 +22,16 @@ source ~/.bashrc
 
 
 
-## After Installing NVM run the following command on project's root Directory
+## After Installing NVM run the following command on project's root Directory If you are using Linux
 
 ```bash
 nvm install
 nvm use
+```
+## If you are using Windows
+```bash
+nvm install 18.14.0
+nvm use 18.14.0
 ```
 
 ### Install Dependencies
