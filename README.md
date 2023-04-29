@@ -19,7 +19,7 @@ source ~/.bashrc
 ```
 <br>
 
-<br>
+
 
 
 ## After Installing NVM run the following command on project's root Directory
