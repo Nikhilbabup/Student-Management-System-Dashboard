@@ -259,10 +259,10 @@ app.post("/form-submit", (req, res) => {
     // Here we can paste the webhook url we get from the slack site
     axios.post("INSERT_WEBHOOK_URL_TO_PHYSICS_CHANNEL",{ text: `name${req.body.name} ,Email:${req.body.email}` })
       .then(() => {
-        res.send("Form submitted!");
+        res.send("Message send!");
       })
       .catch(() => {
-        res.send("Form submission failed!");
+        res.send("Something went wrong! Can't send message !");
       });
   }
 });
