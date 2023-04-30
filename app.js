@@ -18,7 +18,7 @@ const express = require("express"),
 var app = express();
 
 // Connecting to Mongodb
-mongoose.connect("mongodb://localhost/27017");
+mongoose.connect("mongodb://localhost");
 
 //
 const studentSchema = new mongoose.Schema({
