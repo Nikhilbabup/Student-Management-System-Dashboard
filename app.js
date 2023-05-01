@@ -176,44 +176,55 @@ app.get("/logout", function (req, res) {
 app.get("/send-email", async (req, res) => {
   const email = req.query.email; // Get the email address from the query string
   console.log(email);
-  // Create a nodemailer transporter object
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "peterparker@gmail.com",
-      pass: "edith",
-    }
 
-  });
+  /** 
+   * This code is added for checking the nodemailer can send message through gmail
+   * 
+   * 
+   * 
+   *  
+  
+          // Create a nodemailer transporter object
+          const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "peterparker@gmail.com",
+              pass: "edith",
+            }
 
-  // Define the email options
-  const mailOptions = {
-    from: "peterparker@gmail.com",
-    to: email,
-    subject: "Test email",
-    text: "This is a test email.",
-  };
+          });
 
-  // Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.send("Something went wrong! Can't send email ! ");
-      // res.render('admin',{text:"Something went wrong! Can't send email ! "})
-    } else {
-      console.log("Email sent: " + info.response);
-      res.send("Email sent");
-      // res.render('admin',{text:"Email sent"})
-    }
-  });
+          // Define the email options
+          const mailOptions = {
+            from: "peterparker@gmail.com",
+            to: email,
+            subject: "Test email",
+            text: "This is a test email.",
+          };
 
+          // Send the email
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log(error);
+              res.send("Something went wrong! Can't send email ! ");
+              // res.render('admin',{text:"Something went wrong! Can't send email ! "})
+            } else {
+              console.log("Email sent: " + info.response);
+              res.send("Email sent");
+              // res.render('admin',{text:"Email sent"})
+            }
+          });
+*/
 
 
 /**
  *  This is  a testing code to check the working of nodemailer 
  * 
- *  I got this piece of code from https://nodemailer.com/about/
+ *  This code will give you a link copy that link and paste on browser
  * 
+ *  I got this code from https://nodemailer.com/about/
+ * 
+ */
 
         let testAccount = await nodemailer.createTestAccount();
 
@@ -239,7 +250,7 @@ app.get("/send-email", async (req, res) => {
           console.log("Message sent: %s", info.messageId);
           console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
           res.send(nodemailer.getTestMessageUrl(info))
-**/
+/**/
 
 });
 
