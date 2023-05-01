@@ -70,6 +70,5 @@ Password : edith
 9.  On Incoming Webhooks we can add webhook to channel and copy the URL
 
 10. Create 2 channels in slack an add webhooks to that channel
-  
 
-
+11. Copy that urls and paste it on app.js file 261 and 271 lines I have added comments in that section

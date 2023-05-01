@@ -242,7 +242,7 @@ app.get("/send-email", async (req, res) => {
           // send mail with defined transport object
           let info = await transporter.sendMail({
             from: '"perterparker@gmail', 
-            to: "michellejones@gmail",  // we can add email variable her to send email to the student
+            to: email,
             subject: "Test mail",
             text: "Hope you are doing good"
           });
