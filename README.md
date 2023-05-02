@@ -45,7 +45,7 @@ npm run start
 
 ## User credential details to login to the Dashboard
 
-Username : PeterParker
+Username : PeterParker <br>
 Password : edith
 
 ## You can obtain a Slack API token by following these steps:
